@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
@@ -54,6 +52,15 @@ services:
     depends_on:
       - backend
     command: npm run dev
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: vibe-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:
