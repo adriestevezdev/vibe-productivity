@@ -1,0 +1,133 @@
+/* Voxel CSS System - Core Styles */
+
+:root {
+  --voxel-size: 40px;
+  --grid-gap: 2px;
+  --isometric-skew-x: -45deg;
+  --isometric-rotate: 35.264deg;
+  --voxel-shadow: rgba(0, 0, 0, 0.2);
+  --voxel-highlight: rgba(255, 255, 255, 0.3);
+}
+
+/* Isometric Grid Container */
+.voxel-grid {
+  display: inline-block;
+  transform: rotateX(var(--isometric-rotate)) rotateZ(var(--isometric-skew-x));
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+/* Voxel Block Base */
+.voxel-block {
+  position: absolute;
+  width: var(--voxel-size);
+  height: var(--voxel-size);
+  transform-style: preserve-3d;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Voxel Face Styles */
+.voxel-face {
+  position: absolute;
+  width: var(--voxel-size);
+  height: var(--voxel-size);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.voxel-face-top {
+  transform: rotateX(90deg) translateZ(calc(var(--voxel-size) / 2));
+  background: linear-gradient(135deg, var(--voxel-color) 0%, var(--voxel-color-light) 100%);
+}
+
+.voxel-face-front {
+  transform: translateZ(calc(var(--voxel-size) / 2));
+  background: linear-gradient(180deg, var(--voxel-color-light) 0%, var(--voxel-color) 100%);
+}
+
+.voxel-face-right {
+  transform: rotateY(90deg) translateZ(calc(var(--voxel-size) / 2));
+  background: linear-gradient(180deg, var(--voxel-color) 0%, var(--voxel-color-dark) 100%);
+}
+
+/* Voxel States */
+.voxel-block:hover {
+  transform: translateZ(5px);
+  filter: brightness(1.1);
+}
+
+.voxel-block.selected {
+  animation: voxel-pulse 1s ease-in-out infinite;
+}
+
+.voxel-block.completed {
+  filter: saturate(1.2) brightness(1.1);
+}
+
+/* Animations */
+@keyframes voxel-pulse {
+  0%, 100% {
+    transform: translateZ(0);
+  }
+  50% {
+    transform: translateZ(10px);
+  }
+}
+
+@keyframes voxel-appear {
+  from {
+    opacity: 0;
+    transform: translateZ(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+.voxel-block.animate-in {
+  animation: voxel-appear 0.5s ease-out forwards;
+}
+
+/* Task Priority Colors */
+.voxel-priority-low {
+  --voxel-color: #10b981;
+  --voxel-color-light: #34d399;
+  --voxel-color-dark: #059669;
+}
+
+.voxel-priority-medium {
+  --voxel-color: #f59e0b;
+  --voxel-color-light: #fbbf24;
+  --voxel-color-dark: #d97706;
+}
+
+.voxel-priority-high {
+  --voxel-color: #ef4444;
+  --voxel-color-light: #f87171;
+  --voxel-color-dark: #dc2626;
+}
+
+/* Grid Camera Controls */
+.voxel-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.voxel-camera {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  :root {
+    --voxel-size: 30px;
+  }
+}

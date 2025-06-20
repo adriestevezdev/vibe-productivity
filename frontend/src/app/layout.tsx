@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Header } from "@/components/layout/Header";
 import "./globals.css";
+import "@/styles/voxel.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,33 +30,17 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 dark:bg-gray-900`}
         >
-          <header className="p-4 bg-gray-900 text-white">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
-              <h1 className="text-xl font-bold">Vibe Productivity</h1>
-              <nav>
-                <SignedOut>
-                  <div className="space-x-4">
-                    <SignInButton mode="modal">
-                      <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">
-                        Sign In
-                      </button>
-                    </SignInButton>
-                    <SignUpButton mode="modal">
-                      <button className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded">
-                        Sign Up
-                      </button>
-                    </SignUpButton>
-                  </div>
-                </SignedOut>
-                <SignedIn>
-                  <UserButton afterSignOutUrl="/" />
-                </SignedIn>
-              </nav>
+          <div className="flex h-screen overflow-hidden">
+            <Sidebar />
+            <div className="flex-1 flex flex-col lg:ml-64">
+              <Header />
+              <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
+                {children}
+              </main>
             </div>
-          </header>
-          {children}
+          </div>
         </body>
       </html>
     </ClerkProvider>
