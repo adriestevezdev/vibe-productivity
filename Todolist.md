@@ -21,8 +21,8 @@
 - [X] Configurar Alembic para migraciones
 
 ### 3. Configurar Frontend Next.js
-- [ ] Instalar @clerk/nextjs
-- [ ] Configurar ClerkProvider
+- [X] Instalar @clerk/nextjs
+- [X] Configurar ClerkProvider
 - [ ] Configurar sistema de visualización CSS voxel
 - [ ] Configurar Zustand para estado global
 - [ ] Layout base con navegación híbrida
