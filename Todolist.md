@@ -23,47 +23,47 @@
 ### 3. Configurar Frontend Next.js
 - [ ] Instalar @clerk/nextjs
 - [ ] Configurar ClerkProvider
-- [ ] Instalar Three.js y React Three Fiber
+- [ ] Configurar sistema de visualización CSS voxel
 - [ ] Configurar Zustand para estado global
-- [ ] Layout base con navegación 2D/3D híbrida
+- [ ] Layout base con navegación híbrida
 
 ---
 
 ## 🎮 Fase 2: Sistema Visual Voxel Base
 
 ### 1. Mundo Voxel Principal
-- [ ] **Configurar escena Three.js base**
-- [ ] **Sistema de cámara isométrica**
-- [ ] **Controles de navegación (orbit/pan)**
+- [ ] **Configurar grid isométrico CSS**
+- [ ] **Sistema de vista isométrica con CSS transforms**
+- [ ] **Controles de navegación (pan/zoom)**
 - [ ] **Sistema de grid para posicionamiento**
-- [ ] **Iluminación ambiental y direccional**
+- [ ] **Efectos visuales con CSS (sombras, gradientes)**
 
 ### 2. Sistema de Voxels
-- [ ] **Geometría base de cubos**
-- [ ] **Sistema de materiales y texturas**
-- [ ] **Optimización con instanced mesh**
-- [ ] **Sistema de chunks para rendimiento**
+- [ ] **Componente base de cubo CSS**
+- [ ] **Sistema de colores y texturas CSS**
+- [ ] **Optimización con CSS containment**
+- [ ] **Sistema de viewport culling**
 
-### 3. Interacciones 3D
-- [ ] **Raycasting para detección de clicks**
-- [ ] **Highlight on hover**
-- [ ] **Drag & drop de objetos**
+### 3. Interacciones Voxel
+- [ ] **Detección de clicks en elementos isométricos**
+- [ ] **Efectos hover con CSS**
+- [ ] **Drag & drop de voxels**
 - [ ] **Sistema de selección múltiple**
 
 ---
 
 ## 📋 Fase 3: Funcionalidades Core
 
-### 1. CRUD de Tareas con Visualización 3D
+### 1. CRUD de Tareas con Visualización Voxel
 - [X] **Backend:**
-  - [X] Modelo de Tarea con posición 3D
+  - [X] Modelo de Tarea con posición en grid
   - [X] API endpoints protegidos por usuario
   - [X] Validación de datos con Pydantic
-- [ ] **Frontend 3D:**
-  - [ ] TaskBlock component 3D
-  - [ ] Animación de creación/eliminación
+- [ ] **Frontend Voxel:**
+  - [ ] TaskBlock component CSS voxel
+  - [ ] Animación de creación/eliminación con CSS
   - [ ] Estados visuales (pendiente/progreso/completada)
-- [ ] **UI 2D complementaria:**
+- [ ] **UI complementaria:**
   - [ ] Panel lateral con lista de tareas
   - [ ] Formulario de creación rápida
   - [ ] Filtros y búsqueda
@@ -73,12 +73,12 @@
   - [X] Modelo SesionPomodoro (PomodoroSession)
   - [X] API para gestión de sesiones
   - [X] Cálculo de estadísticas
-- [ ] **Visualización 3D:**
-  - [ ] Reloj de arena voxel animado
-  - [ ] Partículas cayendo durante cuenta regresiva
-  - [ ] Cambios de ambiente según fase
+- [ ] **Visualización Voxel:**
+  - [ ] Reloj de arena voxel animado con CSS
+  - [ ] Animaciones CSS durante cuenta regresiva
+  - [ ] Cambios de colores según fase
 - [ ] **Controles:**
-  - [ ] Botones 3D interactivos
+  - [ ] Botones voxel interactivos
   - [ ] Configuración de duración
   - [ ] Notificaciones de cambio de fase
 
@@ -104,8 +104,8 @@
   - [ ] Sistema de niveles de usuario
   - [ ] API de estadísticas
 - [ ] **Visualización:**
-  - [ ] Barra de experiencia 3D
-  - [ ] Efectos de nivel up
+  - [ ] Barra de experiencia estilo voxel
+  - [ ] Efectos de nivel up con CSS
   - [ ] Contador de racha
 
 ### 2. Logros y Recompensas
@@ -116,7 +116,7 @@
 - [ ] **Sistema de logros:**
   - [ ] Definición de logros básicos
   - [ ] Detección de cumplimiento
-  - [ ] Notificaciones 3D
+  - [ ] Notificaciones estilo voxel
 - [ ] **Recompensas visuales:**
   - [ ] Nuevos bloques desbloqueables
   - [ ] Decoraciones para islas
@@ -124,7 +124,7 @@
 
 ### 3. Dashboard de Productividad
 - [ ] **Vista isométrica de estadísticas**
-- [ ] **Gráficos 3D de progreso**
+- [ ] **Gráficos voxel de progreso**
 - [ ] **Calendario voxel de actividad**
 - [ ] **Comparación de períodos**
 
@@ -132,16 +132,16 @@
 
 ## 🚀 Fase 5: Optimizaciones y Polish
 
-### 1. Rendimiento 3D
-- [ ] **Level of Detail (LOD)**
-- [ ] **Frustum culling**
-- [ ] **Optimización de draw calls**
-- [ ] **Lazy loading de assets**
+### 1. Rendimiento Visual
+- [ ] **CSS containment y will-change**
+- [ ] **Viewport culling con Intersection Observer**
+- [ ] **Optimización de repaint/reflow**
+- [ ] **Lazy loading de componentes**
 
 ### 2. Experiencia de Usuario
-- [ ] **Tutorial interactivo 3D**
+- [ ] **Tutorial interactivo voxel**
 - [ ] **Atajos de teclado**
-- [ ] **Modo de vista rápida 2D**
+- [ ] **Modo de vista simplificada**
 - [ ] **Configuración de calidad gráfica**
 
 ### 3. Sincronización y Persistencia
@@ -158,7 +158,7 @@
 - [ ] WebSockets para tiempo real
 - [ ] Avatares de otros usuarios
 - [ ] Espacios compartidos
-- [ ] Chat 3D integrado
+- [ ] Chat integrado estilo voxel
 
 ### 2. Integraciones Externas
 - [ ] Google Calendar
@@ -176,7 +176,7 @@
 
 ## 📝 Notas de Implementación
 
-- **Performance First**: Optimizar desde el inicio para 60 FPS
+- **Performance First**: Optimizar CSS para animaciones fluidas a 60 FPS
 - **Mobile Ready**: Diseño responsive con controles táctiles
-- **Accesibilidad**: Modo 2D completo como alternativa
+- **Accesibilidad**: Modo simplificado completo como alternativa
 - **Escalabilidad**: Arquitectura preparada para características futuras

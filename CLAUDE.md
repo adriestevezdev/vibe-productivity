@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Vibe Productivity is a gamified task management platform that visualizes user productivity in a 3D voxel-based virtual space. Users can organize tasks, track time with Pomodoro sessions, and see their progress represented as building blocks in their personal productivity world.
+Vibe Productivity is a gamified task management platform that visualizes user productivity in a voxel-based virtual space. Users can organize tasks, track time with Pomodoro sessions, and see their progress represented as building blocks in their personal productivity world.
 
 ## Development Commands
 
@@ -53,7 +53,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - **React**: 19.0.0
 - **TypeScript**: Strict mode enabled
 - **Styling**: Tailwind CSS v4 (new syntax)
-- **Planned**: Three.js + React Three Fiber for 3D visualization
+- **Planned**: CSS-based voxel visualization system
 - **State**: Zustand (to be added)
 - **API Client**: Axios (to be added)
 - **Auth**: Clerk (to be added)
@@ -87,7 +87,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - `due_date`: Optional deadline
 - `estimated_pomodoros`: Time estimate
 - `completed_pomodoros`: Progress tracking
-- `position_x`, `position_y`, `position_z`: 3D coordinates
+- `position_x`, `position_y`, `position_z`: Grid coordinates
 - `color`: Hex color for visualization
 - `size`: Visual representation size
 - Relationship: pomodoros
@@ -113,7 +113,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - `user_id`: Foreign key
 - `name`: Space identifier
 - `theme`: Visual theme
-- `grid_size`: 3D grid dimensions
+- `grid_size`: Grid dimensions
 - `camera_position`: JSON camera state
 - `environment_settings`: JSON config
 
@@ -125,11 +125,11 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 - Smooth animations with CSS transitions
 - Responsive design considerations
 
-### Future 3D System (Three.js)
-- Instanced mesh rendering for performance
-- Interactive camera controls
-- Particle effects and shaders
-- Real-time shadow mapping
+### Enhanced Visual System (Future)
+- Advanced CSS animations and effects
+- Interactive grid transformations
+- Particle-like CSS effects
+- Dynamic lighting with CSS filters
 
 ## Environment Configuration
 
@@ -164,18 +164,18 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 5. Implement state management with Zustand
 
 ### Next Phase (Visual Voxel System)
-1. Install Three.js and React Three Fiber
-2. Create 3D scene component
-3. Implement voxel rendering system
-4. Add camera controls and interactions
+1. Create CSS-based voxel component library
+2. Implement isometric grid layout
+3. Build voxel rendering with CSS transforms
+4. Add interactive grid navigation
 
 ## Key Development Principles
 
-1. **Performance First**: Use instancing for 3D objects, implement virtualization for large lists
-2. **Accessibility**: Provide 2D fallbacks, keyboard navigation, screen reader support
+1. **Performance First**: Optimize CSS transforms, implement virtualization for large lists
+2. **Accessibility**: Full keyboard navigation, screen reader support
 3. **Type Safety**: Leverage TypeScript strictly, validate API contracts
 4. **Responsive Design**: Mobile-first approach, touch-friendly interactions
-5. **Progressive Enhancement**: CSS visual system before full 3D implementation
+5. **Progressive Enhancement**: Start with simple CSS, enhance gradually
 
 ## API Design Pattern
 
