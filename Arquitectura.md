@@ -2,9 +2,15 @@
 
 ## MVP - Funcionalidades Core Simplificadas
 
+### ⚠️ Compatibilidad de Versiones
+- **React 19**: Verificar compatibilidad de librerías antes de instalar
+- **Tailwind CSS v4**: Nueva sintaxis y sistema de plugins
+- **ESLint 9**: Usa flat config en lugar de .eslintrc
+- **Next.js 15**: App Router es el estándar, no Pages Router
+
 ### Frontend (Next.js)
 
-- **Mundo 3D Principal**: Espacio voxel navegable con islas temáticas
+- **Mundo Voxel Principal**: Vista isométrica 2.5D navegable con CSS
 - **Gestión de Tareas**: CRUD con representación 3D de tareas como bloques
 - **Timer Pomodoro Visual**: Reloj de arena voxel con animaciones
 - **Dashboard de Productividad**: Vista isométrica con estadísticas básicas
@@ -22,34 +28,48 @@
 - **Base de datos**: PostgreSQL levantado por docker-compose.yml
 - **Sistema de gamificación**: Cálculo de puntos y logros
 
-### Motor 3D (Three.js/React Three Fiber)
+### Sistema Visual Voxel (CSS/Canvas 2D)
 
-- **Renderizado de mundo voxel**: Sistema de chunks para optimización
-- **Sistema de cámara**: Vista isométrica con controles de navegación
-- **Interacciones 3D**: Click/drag para manipular objetos
-- **Animaciones**: Transiciones suaves entre estados
-- **Sistema de partículas**: Efectos visuales para feedback
+- **Renderizado isométrico voxel**: CSS 3D transforms para bloques simples
+- **Vista isométrica**: CSS Grid con perspectiva isométrica
+- **Interacciones**: Click handlers nativos del DOM
+- **Animaciones**: CSS transitions y animations
+- **Efectos visuales**: CSS filters y pseudo-elementos
 
 ### Estructura Técnica
 
-- **Frontend**: Next.js 15.x, TypeScript, Three.js, React Three Fiber
-- **Backend**: FastAPI, SQLAlchemy, Pydantic
-- **Base de datos**: PostgreSQL (levantado por docker-compose.yml)
-- **Autenticación**: Clerk OAuth
-- **Estado Global**: Zustand para gestión de estado 3D
-- **Estilizado**: Tailwind CSS para UI 2D
+#### Frontend - Versiones Específicas
+- **Framework**: Next.js 15.3.4 (App Router)
+- **React**: 19.1.0 (última versión estable)
+- **TypeScript**: 5.8.3 con strict mode
+- **Node.js**: 20.x LTS requerido
+- **Estilizado**: Tailwind CSS 4.1.10 (v4 con nuevo sistema de configuración)
+- **Estado Global**: Zustand 5.x (compatible con React 19)
+- **Linting**: ESLint 9.29.0 con flat config
 
-### Arquitectura de Componentes 3D
+#### Backend - Stack Recomendado
+- **Framework**: FastAPI 0.115.x
+- **ORM**: SQLAlchemy 2.x
+- **Validación**: Pydantic 2.x
+- **Python**: 3.11+ recomendado
 
-- **VoxelWorld**: Componente principal del mundo 3D
-- **TaskBlock**: Representación 3D de tareas individuales
-- **PomodoroTimer3D**: Visualización del timer
-- **Avatar**: Personaje voxel del usuario
-- **IslandZone**: Áreas temáticas del espacio de trabajo
+#### Infraestructura
+- **Base de datos**: PostgreSQL 16.x (via docker-compose)
+- **Autenticación**: Clerk OAuth (última versión SDK)
+- **Containerización**: Docker con hot-reload en desarrollo
 
-### Sistema de Datos 3D
+### Arquitectura de Componentes Visuales
 
-- **Posicionamiento**: Coordenadas x,y,z para cada elemento
-- **Serialización**: Guardado del estado del mundo en BD
-- **Sincronización**: Updates en tiempo real del espacio 3D
-- **Optimización**: LOD (Level of Detail) para rendimiento
+- **VoxelGrid**: Grid isométrico principal con CSS
+- **VoxelBlock**: Bloques voxel con CSS 3D transforms
+- **TaskVoxel**: Tareas representadas como cubos isométricos
+- **PomodoroVoxel**: Timer visual con animaciones CSS
+- **AvatarVoxel**: Sprite 2D o composición de divs
+- **IslandSection**: Secciones temáticas con estilos CSS
+
+### Sistema de Datos Visuales
+
+- **Posicionamiento**: Sistema de grid 2D con altura simulada
+- **Serialización**: Estado de la UI guardado en BD
+- **Sincronización**: Updates del DOM con React
+- **Optimización**: Lazy loading y virtualización de elementos

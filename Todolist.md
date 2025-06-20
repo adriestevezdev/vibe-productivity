@@ -3,17 +3,22 @@
 ## 🏗️ Fase 1: Infraestructura Base
 
 ### 1. Configurar Docker Compose
-- [ ] PostgreSQL con volumen persistente
-- [ ] Backend FastAPI con Dockerfile.dev
-- [ ] Frontend Next.js con Dockerfile.dev
-- [ ] Configuración de hot-reload para desarrollo
+- [X] PostgreSQL con volumen persistente
+- [X] Backend FastAPI con Dockerfile.dev
+- [X] Frontend Next.js con Dockerfile.dev
+- [X] Configuración de hot-reload para desarrollo
+- [X] Archivo .env.example configurado
+- [X] Servicio Adminer para gestión de base de datos
 
 ### 2. Estructura Backend FastAPI
-- [ ] Crear estructura de carpetas (app/, models/, api/, db/, middleware/)
-- [ ] Configurar FastAPI con CORS
-- [ ] Integrar Clerk para autenticación
-- [ ] Configurar SQLAlchemy y conexión a PostgreSQL
-- [ ] Crear modelos base con user_id vinculado a Clerk
+- [X] Crear estructura de carpetas (app/, models/, api/, db/, middleware/)
+- [X] Configurar FastAPI con CORS
+- [X] Integrar Clerk para autenticación
+- [X] Configurar SQLAlchemy y conexión a PostgreSQL
+- [X] Crear modelos base con user_id vinculado a Clerk
+- [X] Modelos adicionales creados: Achievement, Space, UserAchievement
+- [X] Endpoints de usuario (/me) implementados
+- [X] Configurar Alembic para migraciones
 
 ### 3. Configurar Frontend Next.js
 - [ ] Instalar @clerk/nextjs
@@ -24,7 +29,7 @@
 
 ---
 
-## 🎮 Fase 2: Sistema 3D Base
+## 🎮 Fase 2: Sistema Visual Voxel Base
 
 ### 1. Mundo Voxel Principal
 - [ ] **Configurar escena Three.js base**
@@ -50,10 +55,10 @@
 ## 📋 Fase 3: Funcionalidades Core
 
 ### 1. CRUD de Tareas con Visualización 3D
-- [ ] **Backend:**
-  - [ ] Modelo de Tarea con posición 3D
-  - [ ] API endpoints protegidos por usuario
-  - [ ] Validación de datos con Pydantic
+- [X] **Backend:**
+  - [X] Modelo de Tarea con posición 3D
+  - [X] API endpoints protegidos por usuario
+  - [X] Validación de datos con Pydantic
 - [ ] **Frontend 3D:**
   - [ ] TaskBlock component 3D
   - [ ] Animación de creación/eliminación
@@ -64,10 +69,10 @@
   - [ ] Filtros y búsqueda
 
 ### 2. Timer Pomodoro Visual
-- [ ] **Backend:**
-  - [ ] Modelo SesionPomodoro
-  - [ ] API para gestión de sesiones
-  - [ ] Cálculo de estadísticas
+- [X] **Backend:**
+  - [X] Modelo SesionPomodoro (PomodoroSession)
+  - [X] API para gestión de sesiones
+  - [X] Cálculo de estadísticas
 - [ ] **Visualización 3D:**
   - [ ] Reloj de arena voxel animado
   - [ ] Partículas cayendo durante cuenta regresiva
@@ -78,6 +83,10 @@
   - [ ] Notificaciones de cambio de fase
 
 ### 3. Sistema de Islas/Zonas
+- [X] **Backend:**
+  - [X] Modelo SpaceConfiguration con layouts de islas
+  - [X] Configuración de cámara y lighting
+  - [X] API para gestión de espacios
 - [ ] **Diseño de islas temáticas:**
   - [ ] Isla de trabajo actual
   - [ ] Isla de tareas completadas
@@ -100,6 +109,10 @@
   - [ ] Contador de racha
 
 ### 2. Logros y Recompensas
+- [X] **Backend:**
+  - [X] Modelo Achievement y UserAchievement
+  - [X] Sistema de puntos y unlocks visuales
+  - [X] API para gestión de logros
 - [ ] **Sistema de logros:**
   - [ ] Definición de logros básicos
   - [ ] Detección de cumplimiento
