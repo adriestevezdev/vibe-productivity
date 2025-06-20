@@ -3,18 +3,41 @@
 :root {
   --voxel-size: 40px;
   --grid-gap: 2px;
-  --isometric-skew-x: -45deg;
-  --isometric-rotate: 35.264deg;
+  --isometric-angle: 30deg;
+  --isometric-rotation: 45deg;
   --voxel-shadow: rgba(0, 0, 0, 0.2);
   --voxel-highlight: rgba(255, 255, 255, 0.3);
+  
+  /* Grid System Variables */
+  --grid-x-offset: calc(var(--voxel-size) * 0.866); /* cos(30deg) */
+  --grid-y-offset: calc(var(--voxel-size) * 0.5);   /* sin(30deg) */
+  --grid-z-offset: calc(var(--voxel-size) * 0.866);
+  
+  /* Camera Control Variables */
+  --camera-zoom: 1;
+  --camera-pan-x: 0px;
+  --camera-pan-y: 0px;
 }
 
 /* Isometric Grid Container */
 .voxel-grid {
+  position: relative;
   display: inline-block;
-  transform: rotateX(var(--isometric-rotate)) rotateZ(var(--isometric-skew-x));
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
+  
+  /* Performance optimizations */
+  contain: layout;
+  will-change: transform;
+}
+
+/* Isometric Transform Mixin */
+.isometric-transform {
+  transform: 
+    scale(var(--camera-zoom))
+    translate(var(--camera-pan-x), var(--camera-pan-y))
+    rotateX(var(--isometric-angle)) 
+    rotateZ(var(--isometric-rotation));
 }
 
 /* Voxel Block Base */
@@ -24,6 +47,41 @@
   height: var(--voxel-size);
   transform-style: preserve-3d;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  pointer-events: auto;
+  
+  /* CSS Containment for performance */
+  contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: var(--voxel-size) var(--voxel-size);
+  will-change: transform;
+}
+
+/* Click Target Expansion for Better Isometric Hit Detection */
+.voxel-block::after {
+  content: '';
+  position: absolute;
+  width: calc(var(--voxel-size) * 1.5);
+  height: calc(var(--voxel-size) * 1.5);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: -1;
+}
+
+/* Isometric Positioning System */
+.voxel-block[data-x][data-y][data-z] {
+  --iso-x: calc(
+    (var(--block-x) - var(--block-y)) * var(--grid-x-offset)
+  );
+  --iso-y: calc(
+    (var(--block-x) + var(--block-y)) * var(--grid-y-offset) - 
+    (var(--block-z) * var(--voxel-size))
+  );
+  
+  left: var(--iso-x);
+  top: var(--iso-y);
 }
 
 /* Voxel Face Styles */
@@ -33,35 +91,156 @@
   height: var(--voxel-size);
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  backface-visibility: hidden;
 }
 
+/* Top Face - Brightest */
 .voxel-face-top {
   transform: rotateX(90deg) translateZ(calc(var(--voxel-size) / 2));
-  background: linear-gradient(135deg, var(--voxel-color) 0%, var(--voxel-color-light) 100%);
+  background: 
+    linear-gradient(135deg, 
+      var(--voxel-color, #3b82f6) 0%, 
+      color-mix(in srgb, var(--voxel-color, #3b82f6), white 20%) 100%
+    );
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
+/* Front Face - Medium brightness */
 .voxel-face-front {
   transform: translateZ(calc(var(--voxel-size) / 2));
-  background: linear-gradient(180deg, var(--voxel-color-light) 0%, var(--voxel-color) 100%);
+  background: 
+    linear-gradient(180deg, 
+      color-mix(in srgb, var(--voxel-color, #3b82f6), white 10%) 0%, 
+      var(--voxel-color, #3b82f6) 100%
+    );
 }
 
+/* Right Face - Darkest */
 .voxel-face-right {
   transform: rotateY(90deg) translateZ(calc(var(--voxel-size) / 2));
-  background: linear-gradient(180deg, var(--voxel-color) 0%, var(--voxel-color-dark) 100%);
+  background: 
+    linear-gradient(180deg, 
+      var(--voxel-color, #3b82f6) 0%, 
+      color-mix(in srgb, var(--voxel-color, #3b82f6), black 20%) 100%
+    );
+  filter: brightness(0.8);
+}
+
+/* Left Face - For complete cube */
+.voxel-face-left {
+  transform: rotateY(-90deg) translateZ(calc(var(--voxel-size) / 2));
+  background: 
+    linear-gradient(180deg, 
+      var(--voxel-color, #3b82f6) 0%, 
+      color-mix(in srgb, var(--voxel-color, #3b82f6), black 30%) 100%
+    );
+  filter: brightness(0.7);
+}
+
+/* Back Face - Usually hidden */
+.voxel-face-back {
+  transform: rotateY(180deg) translateZ(calc(var(--voxel-size) / 2));
+  background: color-mix(in srgb, var(--voxel-color, #3b82f6), black 40%);
+}
+
+/* Bottom Face - Usually hidden */
+.voxel-face-bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--voxel-size) / 2));
+  background: color-mix(in srgb, var(--voxel-color, #3b82f6), black 50%);
 }
 
 /* Voxel States */
+.voxel-block {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+}
+
 .voxel-block:hover {
-  transform: translateZ(5px);
-  filter: brightness(1.1);
+  transform: translateZ(5px) scale(1.05);
+  filter: brightness(1.1) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
+  will-change: transform, filter;
+}
+
+/* Remove will-change after animation */
+.voxel-block:not(:hover) {
+  will-change: auto;
+}
+
+/* Dragging states */
+.voxel-block.dragging {
+  opacity: 0.5;
+  transform: scale(1.1) translateZ(20px);
+  cursor: grabbing !important;
+  z-index: 1000;
+}
+
+.voxel-drag-preview {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+/* Drop zone indicators */
+.voxel-drop-zone {
+  position: absolute;
+  background: rgba(59, 130, 246, 0.1);
+  border: 2px dashed rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.voxel-drop-zone.active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.8);
+  animation: drop-zone-pulse 1s ease-in-out infinite;
+}
+
+@keyframes drop-zone-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.voxel-block:active {
+  transform: translateZ(2px) scale(0.98);
 }
 
 .voxel-block.selected {
   animation: voxel-pulse 1s ease-in-out infinite;
+  filter: 
+    brightness(1.15) 
+    drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))
+    drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
 }
 
 .voxel-block.completed {
-  filter: saturate(1.2) brightness(1.1);
+  filter: 
+    saturate(1.2) 
+    brightness(1.1)
+    drop-shadow(0 0 12px rgba(16, 185, 129, 0.4));
+}
+
+/* Glowing effect for interactive elements */
+.voxel-block.interactive {
+  position: relative;
+}
+
+.voxel-block.interactive::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.voxel-block.interactive:hover::before {
+  opacity: 1;
 }
 
 /* Animations */
@@ -108,6 +287,87 @@
   --voxel-color-dark: #dc2626;
 }
 
+/* Voxel Theme Colors */
+.voxel-theme-ocean {
+  --voxel-color: #0ea5e9;
+  --voxel-color-light: #38bdf8;
+  --voxel-color-dark: #0284c7;
+}
+
+.voxel-theme-forest {
+  --voxel-color: #22c55e;
+  --voxel-color-light: #4ade80;
+  --voxel-color-dark: #16a34a;
+}
+
+.voxel-theme-sunset {
+  --voxel-color: #f97316;
+  --voxel-color-light: #fb923c;
+  --voxel-color-dark: #ea580c;
+}
+
+.voxel-theme-lavender {
+  --voxel-color: #a855f7;
+  --voxel-color-light: #c084fc;
+  --voxel-color-dark: #9333ea;
+}
+
+.voxel-theme-rose {
+  --voxel-color: #e11d48;
+  --voxel-color-light: #f43f5e;
+  --voxel-color-dark: #be123c;
+}
+
+.voxel-theme-slate {
+  --voxel-color: #64748b;
+  --voxel-color-light: #94a3b8;
+  --voxel-color-dark: #475569;
+}
+
+/* Material Textures */
+.voxel-material-glass {
+  opacity: 0.8;
+  backdrop-filter: blur(4px);
+}
+
+.voxel-material-glass .voxel-face {
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.3), 
+      transparent 50%,
+      rgba(255, 255, 255, 0.1)
+    ),
+    var(--voxel-color);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.voxel-material-metal {
+  filter: contrast(1.2) brightness(1.1);
+}
+
+.voxel-material-metal .voxel-face {
+  background: 
+    linear-gradient(135deg, 
+      color-mix(in srgb, var(--voxel-color), white 40%), 
+      var(--voxel-color) 50%,
+      color-mix(in srgb, var(--voxel-color), black 20%)
+    );
+}
+
+.voxel-material-neon {
+  filter: saturate(2) brightness(1.3);
+  animation: neon-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  from {
+    filter: saturate(2) brightness(1.3) drop-shadow(0 0 10px var(--voxel-color));
+  }
+  to {
+    filter: saturate(2.5) brightness(1.5) drop-shadow(0 0 20px var(--voxel-color));
+  }
+}
+
 /* Grid Camera Controls */
 .voxel-viewport {
   position: relative;
@@ -115,14 +375,77 @@
   height: 100%;
   overflow: hidden;
   perspective: 1000px;
+  background: 
+    radial-gradient(ellipse at center, 
+      rgba(59, 130, 246, 0.05) 0%, 
+      transparent 70%
+    );
+  cursor: grab;
+}
+
+.voxel-viewport:active {
+  cursor: grabbing;
 }
 
 .voxel-camera {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.3s ease;
+  transform-origin: center center;
+  transform: 
+    translate(-50%, -50%)
+    translate(var(--camera-pan-x), var(--camera-pan-y))
+    scale(var(--camera-zoom));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Grid Floor */
+.voxel-grid-floor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: var(--voxel-size) var(--voxel-size);
+  transform: rotateX(90deg) translateZ(calc(var(--voxel-size) * -0.5));
+  opacity: 0.3;
+}
+
+/* Zoom Controls */
+.voxel-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 100;
+}
+
+.voxel-control-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.voxel-control-btn:hover {
+  transform: scale(1.1);
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.voxel-control-btn:active {
+  transform: scale(0.95);
 }
 
 /* Responsive Adjustments */
